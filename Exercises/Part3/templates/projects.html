@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Jinja2</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f4f8;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #edf2f7;
+            border-radius: 5px;
+        }
+
+        nav a {
+            margin-right: 15px;
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #2b6cb0;
+        }
+
+        .project-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .project-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .project-tech {
+            color: #718096;
+            margin-top: 5px;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 14px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .completed {
+            background: #c6f6d5;
+            color: #276749;
+        }
+
+        .progress {
+            background: #feebc8;
+            color: #c05621;
+        }
+
+        .planned {
+            background: #e9d8fd;
+            color: #6b46c1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/profile">Profile</a>
+            <a href="/skills">Skills</a>
+            <a href="/projects">Projects</a>
+        </nav>
+
+        <h1>My Projects</h1>
+        <p>Projects rendered using <strong>Jinja2 for-loops</strong>.</p>
+
+        <!-- ✅ FOR LOOP START -->
+        {% for project in projects %}
+            <div class="project-card">
+                <div class="project-name">{{ project.name }}</div>
+                <div class="project-tech">Tech: {{ project.tech }}</div>
+
+                {% if project.status == 'Completed' %}
+                    <span class="status completed">{{ project.status }}</span>
+                {% elif project.status == 'In Progress' %}
+                    <span class="status progress">{{ project.status }}</span>
+                {% else %}
+                    <span class="status planned">{{ project.status }}</span>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <!-- ✅ FOR LOOP END -->
+
+        <p><strong>Total Projects:</strong> {{ projects | length }}</p>
+
+    </div>
+
+</body>
+</html>
