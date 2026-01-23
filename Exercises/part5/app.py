@@ -45,6 +45,27 @@ PROJECTS = [
     }
 ]
 
+BLOG_POSTS = [
+    {
+        'id': 1,
+        'title': 'Getting Started with Flask',
+        'summary': 'My experience learning Flask and building my first web application.',
+        'date': 'Jan 2026'
+    },
+    {
+        'id': 2,
+        'title': 'Building a Portfolio Website',
+        'summary': 'How I designed and developed my personal portfolio using Flask and Jinja2.',
+        'date': 'Feb 2024'
+    },
+    {
+        'id': 3,
+        'title': 'Frontend Journey with Spotify Clone',
+        'summary': 'What I learned while building a Spotify frontend clone using HTML, CSS, and JavaScript.',
+        'date': 'Mar 2024'
+    }
+]
+
 
 # ROUTES
 
@@ -78,16 +99,32 @@ def project_detail(project_id):
 def contact():
     return render_template('contact.html', info=PERSONAL_INFO)
 
+@app.route('/blog')
+def blog():
+    return render_template('blog.html', info=PERSONAL_INFO, posts=BLOG_POSTS)
+
+@app.route('/skill/<skill_name>')
+def skill_projects(skill_name):
+    # Filter projects that use the specified skill
+    filtered_projects = [project for project in PROJECTS if skill_name in project['tech']]
+    
+    # Get skill info
+    skill_info = None
+    for skill in SKILLS:
+        if skill['name'].lower() == skill_name.lower():
+            skill_info = skill
+            break
+    
+    return render_template('skill.html', info=PERSONAL_INFO, skill_name=skill_name, projects=filtered_projects, skill=skill_info)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
 
-print("Prieysh Kathe")
 
-# Exercise 5.2: Add a new page
-#   - Create a /blog route
-#   - Add blog posts data structure
-#   - Create blog.html template
+
+#
 #
 # Exercise 5.3: Enhance the styling
 #   - Modify static/style.css
