@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .form-header {
+        margin-bottom: 32px;
+    }
+
+    .form-header h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 8px;
+    }
+
+    .form-header p {
+        color: var(--gray);
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 500;
+        color: var(--dark);
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    .form-group label .required {
+        color: var(--danger);
+        margin-left: 4px;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 2px solid var(--light-gray);
+    }
+
+    .priority-selector {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .priority-option {
+        position: relative;
+    }
+
+    .priority-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .priority-label {
+        display: block;
+        padding: 12px;
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
+    }
+
+    .priority-option input[type="radio"]:checked + .priority-label {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: var(--white);
+    }
+
+    .priority-label.high {
+        border-color: #fca5a5;
+    }
+
+    .priority-option input[type="radio"]:checked + .priority-label.high {
+        background: var(--danger);
+        border-color: var(--danger);
+    }
+
+    .priority-label.medium {
+        border-color: #fcd34d;
+    }
+
+    .priority-option input[type="radio"]:checked + .priority-label.medium {
+        background: var(--warning);
+        border-color: var(--warning);
+    }
+
+    .priority-label.low {
+        border-color: #6ee7b7;
+    }
+
+    .priority-option input[type="radio"]:checked + .priority-label.low {
+        background: var(--success);
+        border-color: var(--success);
+    }
+
+    .priority-label:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+    }
+
+    .status-selector {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .status-option {
+        position: relative;
+    }
+
+    .status-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .status-label {
+        display: block;
+        padding: 12px;
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
+    }
+
+    .status-option input[type="radio"]:checked + .status-label {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: var(--white);
+    }
+
+    .status-label:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+    }
+
+    @media (max-width: 640px) {
+        .priority-selector,
+        .status-selector {
+            grid-template-columns: 1fr;
+        }
+        
+        .form-actions {
+            flex-direction: column-reverse;
+        }
+        
+        .form-actions .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="form-header">
+    <h2>Edit Task</h2>
+    <p>Update the details of your task</p>
+</div>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="title">
+            Task Title
+            <span class="required">*</span>
+        </label>
+        <input type="text" id="title" name="title" value="{{ task.title }}" required autofocus>
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" placeholder="Add more details about this task (optional)">{{ task.description }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label>
+            Status
+            <span class="required">*</span>
+        </label>
+        <div class="status-selector">
+            <div class="status-option">
+                <input type="radio" id="status-pending" name="status" value="Pending" {% if task.status == 'Pending' %}checked{% endif %}>
+                <label for="status-pending" class="status-label">⏳ Pending</label>
+            </div>
+            <div class="status-option">
+                <input type="radio" id="status-progress" name="status" value="In Progress" {% if task.status == 'In Progress' %}checked{% endif %}>
+                <label for="status-progress" class="status-label">🔄 In Progress</label>
+            </div>
+            <div class="status-option">
+                <input type="radio" id="status-completed" name="status" value="Completed" {% if task.status == 'Completed' %}checked{% endif %}>
+                <label for="status-completed" class="status-label">✓ Completed</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>
+            Priority Level
+            <span class="required">*</span>
+        </label>
+        <div class="priority-selector">
+            <div class="priority-option">
+                <input type="radio" id="priority-high" name="priority" value="High" {% if task.priority == 'High' %}checked{% endif %}>
+                <label for="priority-high" class="priority-label high">🔴 High</label>
+            </div>
+            <div class="priority-option">
+                <input type="radio" id="priority-medium" name="priority" value="Medium" {% if task.priority == 'Medium' %}checked{% endif %}>
+                <label for="priority-medium" class="priority-label medium">🟡 Medium</label>
+            </div>
+            <div class="priority-option">
+                <input type="radio" id="priority-low" name="priority" value="Low" {% if task.priority == 'Low' %}checked{% endif %}>
+                <label for="priority-low" class="priority-label low">🟢 Low</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="due_date">Due Date</label>
+        <input type="date" id="due_date" name="due_date" value="{{ task.due_date }}">
+    </div>
+
+    <div class="form-actions">
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Update Task</button>
+    </div>
+</form>
+{% endblock %}

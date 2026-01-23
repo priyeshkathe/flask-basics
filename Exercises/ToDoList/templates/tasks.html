@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for task in tasks %}
+<div class="card">
+    <h3>{{ task.title }}</h3>
+
+    <p>
+        <strong>Status:</strong>
+        {% if task.status == 'Completed' %}
+            <span class="status-completed">{{ task.status }}</span>
+        {% elif task.status == 'In Progress' %}
+            <span class="status-in-progress">{{ task.status }}</span>
+        {% else %}
+            <span class="status-pending">{{ task.status }}</span>
+        {% endif %}
+    </p>
+
+    <p>
+        <strong>Priority:</strong>
+        {% if task.priority == 'High' %}
+            <span class="priority-high">{{ task.priority }}</span>
+        {% elif task.priority == 'Medium' %}
+            <span class="priority-medium">{{ task.priority }}</span>
+        {% else %}
+            <span class="priority-low">{{ task.priority }}</span>
+        {% endif %}
+    </p>
+</div>
+{% else %}
+<div class="card">
+    <p>No tasks available.</p>
+</div>
+{% endfor %}
+{% endblock %}
