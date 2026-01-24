@@ -1,6 +1,15 @@
 # Exercise 2.1: Modify the templates
 #   - Edit index.html and add more content
 #   - Refresh browser to see changes
+#
+# Exercise 2.2: Create a new page
+#   - Create templates/contact.html
+#   - Add a new route @app.route('/contact')
+#   - Return render_template('contact.html')
+#
+# Exercise 2.3: Add navigation
+#   - Add <a href="/"> and <a href="/about"> links to both pages
+#   - Test clicking between pages
 
 from flask import Flask, render_template 
 
